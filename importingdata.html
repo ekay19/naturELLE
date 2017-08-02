@@ -18,29 +18,36 @@
   <body>
     <div id="map"></div>
     <script>
-    function initMap() {
-      var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 38.9072, lng: -77.0369},
-        zoom: 15
-      });
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
-      var infowindow = new google.maps.InfoWindow();
-      var service = new google.maps.places.PlacesService(map);
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 38.9072, lng: -77.0369},
+          zoom: 12
+        });
 
-      service.getDetails({
-        placeId: 'ChIJPfyBN8G3t4kRhaa6DHnl7Ss'
-      }, function(place, status) {
-        if (status === google.maps.places.PlacesServiceStatus.OK) {
-          var marker = new google.maps.Marker({
-            map: map,
-            position: place.geometry.location
-          });
-          google.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-              place.formatted_address +'<br>'+'Rating: '+place.rating + '</div>');
-            infowindow.open(map, this);
-          });
-        }
+        var infowindow = new google.maps.InfoWindow();
+        var service = new google.maps.places.PlacesService(map);
+
+        service.getDetails({
+          placeId: 'ChIJPfyBN8G3t4kRhaa6DHnl7Ss'
+        }, function(place, status) {
+          if (status === google.maps.places.PlacesServiceStatus.OK) {
+            var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+              infowindow.setContent('<div><strong>' + place.name + '</strong><br>'  +
+                place.formatted_address +'<br>'+
+                 '<br>'+'Rating: '+place.rating + '</div>');
+              infowindow.open(map, this);
+            });
+          }
+      });    
+      }
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf4mB4FrO0FOxLgwaUb7o9T_QBwW8aSfI&libraries=places&callback=initMap">

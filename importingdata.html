@@ -22,54 +22,26 @@
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
+var locIDs = [
+	"ChIJ5wjAMd23t4kR_WDKjvHgiMg",
+  "ChIJPfyBN8G3t4kRhaa6DHnl7Ss",
+  'ChIJYXTmIjW4t4kRdPU83SB_olg'
+  
+]
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  var map = new
+  
+google.maps.Map(document.getElementById('map'), {
     center: {lat: 38.9072, lng: -77.0369},
     zoom: 12
   });
 
   var infowindow = new google.maps.InfoWindow();
   var service1 = new google.maps.places.PlacesService(map);
-  var service = new google.maps.places.PlacesService(map);
-  var service2 = new google.maps.places.PlacesService(map);
-  var service3 = new google.maps.places.PlacesService(map);
 
-  service1.getDetails({
-    placeId: 'ChIJPfyBN8G3t4kRhaa6DHnl7Ss'
-  }, function(place, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>'  +
-          place.formatted_address +'<br>'+
-           '<br>'+'Rating: '+place.rating + '</div>');
-        infowindow.open(map, this);
-      });
-      }
-}); 
-
-service.getDetails({
-    placeId: 'ChIJdTK_xBzIt4kRrh1L6guELBU'
-  }, function(place, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>'  +
-          place.formatted_address +'<br>'+
-           '<br>'+'Rating: '+place.rating + '</div>');
-        infowindow.open(map, this);
-      });
-    }
-   });
- 
-  service2.getDetails({
-    placeId: 'ChIJYXTmIjW4t4kRdPU83SB_olg'
+for (i = 0; i <= locIDs.length; i++)
+  	service1.getDetails({
+    placeId: locIDs[i]
   }, function(place, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
       var marker = new google.maps.Marker({
@@ -85,23 +57,11 @@ service.getDetails({
     }
    });
   
-  service3.getDetails({
-    placeId: 'ChIJS7PBq4_Ft4kR4QsuIxqaUbk'
-  }, function(place, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-      var marker = new google.maps.Marker({
-        map: map,
-        position: place.geometry.location
-      });
-      google.maps.event.addListener(marker, 'click', function() {
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>'  +
-          place.formatted_address +'<br>'+
-           '<br>'+'Rating: '+place.rating + '</div>');
-        infowindow.open(map, this);
-      });
-    }
-   });
+  //the above asedfadgdfsjkgarkjgfndfkjg
+
 }
+
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf4mB4FrO0FOxLgwaUb7o9T_QBwW8aSfI&libraries=places&callback=initMap">

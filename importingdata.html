@@ -23,17 +23,23 @@
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
 
 var locIDs = [
-	"ChIJ5wjAMd23t4kR_WDKjvHgiMg",
-  "ChIJPfyBN8G3t4kRhaa6DHnl7Ss",
-  'ChIJYXTmIjW4t4kRdPU83SB_olg'
-  
+  "ChIJS7PBq4_Ft4kR4QsuIxqaUbk",//n natural
+  "ChIJPfyBN8G3t4kRhaa6DHnl7Ss",//fiddleheads
+  'ChIJYXTmIjW4t4kRdPU83SB_olg',//colestevens
+  "ChIJ5wjAMd23t4kR_WDKjvHgiMg",//parlour
+  "ChIJqRalpLvIt4kR_7kAyesZLxM",//jaha
+  "ChIJWYFul-23t4kRLrYsgKElqRc",//halcyon
+  "ChIJX-qTPpK8t4kRk8y1ZFBC1dY",//locxurious
+  "ChIJNz2OuczIt4kRtsDUkECJjYo",//urban nature
+  "ChIJd-CQJR3Pt4kR2Yt9hrsCL9Q",//the edge
+  "ChIJ63ZgPFcvd0ARa7cFGfTRVYc"//signature image
 ]
 function initMap() {
   var map = new
   
 google.maps.Map(document.getElementById('map'), {
     center: {lat: 38.9072, lng: -77.0369},
-    zoom: 12
+    zoom: 10
   });
 
   var infowindow = new google.maps.InfoWindow();

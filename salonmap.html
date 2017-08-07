@@ -65,7 +65,7 @@
 	];
 	var gmarkers = [];
 	var markersArray = [];
-
+  var mDistance;
 	function initMap() {
 	  var map = new google.maps.Map(document.getElementById('map'), {
 	    zoom: 11,
@@ -73,53 +73,48 @@
 	  });
 	  var geocoder = new google.maps.Geocoder();
 	  var infowindow = new google.maps.InfoWindow();
-
 	  document.getElementById('submit').addEventListener('click', function() {
 	    geocodeAddress(geocoder, map);
 	  });
-
 	  var service1 = new google.maps.places.PlacesService(map);
 	  for (i = 0; i <= locIDs.length; i++)
 	    service1.getDetails({
 	      placeId: locIDs[i]
 	    }, function(place, status) {
 	      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        var pinColor = "6699CC";
+    var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+        new google.maps.Size(21, 34),
+        new google.maps.Point(0,0),
+        new google.maps.Point(10, 34));
 		var marker = new google.maps.Marker({
 		  map: map,
-		  position: place.geometry.location
+		  position: place.geometry.location,
+      icon: pinImage
 		});
-
 		google.maps.event.addListener(marker, 'click', function() {
 		  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
 		    place.formatted_address + '<br>' +
-		    '<br>' + 'Rating: ' + place.rating + '</div>');
+		    '<br>' + 'Rating: ' + place.rating +'<br>'+'Distance away: '+mDistance +'</div>');
 		  infowindow.open(map, this);
 		});
-
 		gmarkers.push(marker);
 		markersArray.push(marker);
-
 	      }
 	    });
 	//setMapOnAll(null);
 	}
-
 	function clearOverlays() {
 	  for (var i = 0; i < markersArray.length; i++ ) {
 	    markersArray[i].setVisible(false);
 	  }
 	  markersArray.length = 0;
 	}
-
 	function geocodeAddress(geocoder, resultsMap) {
-
 		clearOverlays();
 	  var address = document.getElementById('address').value;
-
-	  var radius = (parseFloat(document.getElementById('radius').value))*1000;
-
+	  var radius = (parseFloat(document.getElementById('radius').value))*1609.344;
 	  geocoder.geocode({'address': address}, function(results, status) {
-
 	    if (status === 'OK') {
 	      resultsMap.setCenter(results[0].geometry.location);
 	      var marker = new google.maps.Marker({
@@ -127,17 +122,14 @@
 		position: results[0].geometry.location
 	      });
 	       markersArray.push(marker);
-
 	       //Both gmarkers and marker return latLng vals before being fed into computeDistanceBetween, but the compute distance line won't run
 	       //This should be the part that displays each marker
 	       //consider making it a new function
 	       for (var s = 0; s <= gmarkers.length; s++){
 		var userLoc = marker.getPosition();
 		var dest = gmarkers[s].getPosition();
-
 		var mDistance = google.maps.geometry.spherical.computeDistanceBetween(userLoc,dest);
 	//IT WORKS I MADE THIS WORK!!!
-
 		if (mDistance<=radius){
 			gmarkers[s].setVisible(true);
 	     //^^Now this is the problem line

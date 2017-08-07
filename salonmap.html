@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    /* Always set the map height explicitly to define the size of the div
+ * element that contains the map. */
+#map {
+  height: 100%;
+}
+/* Optional: Makes the sample page fill the window. */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}
+  </style>
+
+  <title>Salon Finder in DC</title>
+
+  
+</head>
+
+<body>
+  <div id="floating-panel">
+  <label for="address">Search location:</label>
+  <input type="textbox" id="address" size="15" />
+  <label for="radius">Radius:</label>
+  <input type="textbox" id="radius" size="15" />
+ <!-- <select id="radius" label="Radius">
+    <option value="50" selected>50 kms</option>
+    <option value="30">30 kms</option>
+    <option value="20">20 kms</option>
+    <option value="10">10 kms</option>
+  </select>-->
+
+   <input id="submit" type="button" value="Search">
+</div>
+<div>
+  <select id="locationSelect" style="width: 10%; visibility: hidden"></select>
+</div>
+<div id="map" style="width: 100%; height: 90%"></div>
+
+<div id="map">
+</div>
+
+<!-- Replace the value of the key parameter with whichever API key we end up using. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&sensor=false&v=3&libraries=geometry,places&callback=initMap" async defer></script>
+
+  
+
+
+
+
+
+var locIDs = [
+  "ChIJS7PBq4_Ft4kR4QsuIxqaUbk", //n natural
+  "ChIJPfyBN8G3t4kRhaa6DHnl7Ss", //fiddleheads
+  'ChIJYXTmIjW4t4kRdPU83SB_olg', //colestevens
+  "ChIJ5wjAMd23t4kR_WDKjvHgiMg", //parlour
+  "ChIJqRalpLvIt4kR_7kAyesZLxM", //jaha
+  "ChIJWYFul-23t4kRLrYsgKElqRc", //halcyon
+  "ChIJX-qTPpK8t4kRk8y1ZFBC1dY", //locxurious
+  "ChIJNz2OuczIt4kRtsDUkECJjYo", //urban nature
+  "ChIJd-CQJR3Pt4kR2Yt9hrsCL9Q", //the edge
+  "ChIJ63ZgPFcvd0ARa7cFGfTRVYc" //signature image
+];
+var gmarkers = [];
+var markersArray = [];
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 8,
+    center: {lat: -34.397, lng: 150.644}
+  });
+  var geocoder = new google.maps.Geocoder();
+  var infowindow = new google.maps.InfoWindow();
+  
+  document.getElementById('submit').addEventListener('click', function() {
+    geocodeAddress(geocoder, map);
+  });
+  
+  var service1 = new google.maps.places.PlacesService(map);
+  for (i = 0; i <= locIDs.length; i++)
+    service1.getDetails({
+      placeId: locIDs[i]
+    }, function(place, status) {
+      if (status === google.maps.places.PlacesServiceStatus.OK) {
+        var marker = new google.maps.Marker({
+          map: map,
+          position: place.geometry.location
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
+            place.formatted_address + '<br>' +
+            '<br>' + 'Rating: ' + place.rating + '</div>');
+          infowindow.open(map, this);
+        });
+        
+        gmarkers.push(marker);
+        markersArray.push(marker);
+
+      }
+    });
+//setMapOnAll(null);
+}
+
+function clearOverlays() {
+  for (var i = 0; i < markersArray.length; i++ ) {
+    markersArray[i].setVisible(false);
+  }
+  markersArray.length = 0;
+}
+
+function geocodeAddress(geocoder, resultsMap) {
+
+	clearOverlays();
+  var address = document.getElementById('address').value;
+  
+  var radius = (parseFloat(document.getElementById('radius').value))*1000;
+  
+  geocoder.geocode({'address': address}, function(results, status) {
+  	
+    if (status === 'OK') {
+      resultsMap.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+        map: resultsMap,
+        position: results[0].geometry.location
+      });
+       markersArray.push(marker);
+ 
+       //Both gmarkers and marker return latLng vals before being fed into computeDistanceBetween, but the compute distance line won't run
+       //This should be the part that displays each marker
+       //consider making it a new function
+       for (var s = 0; s <= gmarkers.length; s++){
+       	var userLoc = marker.getPosition();
+        var dest = gmarkers[s].getPosition();
+        
+       	var mDistance = google.maps.geometry.spherical.computeDistanceBetween(userLoc,dest);
+//IT WORKS I MADE THIS WORK!!!
+        
+        if (mDistance<=radius){
+        	gmarkers[s].setVisible(true);
+     //^^Now this is the problem line
+            document.getElementById("address").value = mDistance;
+        }
+       }
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
+

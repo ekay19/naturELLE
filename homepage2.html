@@ -32,20 +32,18 @@ body {font-family: "Lato", sans-serif;}
 </head>
 <body>
 
-<p>Click on the buttons inside the tabbed menu:</p>
-
-<div id="London" class="tabcontent">
-  <h3>London</h3>
+<div id="NaturELLE" class="tabcontent">
+  <h3>NaturELLE Salon Finder</h3>
   <p>London is the capital city of England.</p>
 </div>
 
-<div id="Paris" class="tabcontent">
-  <h3>Paris</h3>
+<div id="About Us" class="tabcontent">
+  <h3>About Us</h3>
   <p>Paris is the capital of France.</p> 
 </div>
 
-<div id="Tokyo" class="tabcontent">
-  <h3>Tokyo</h3>
+<div id="Hair Types" class="tabcontent">
+  <h3>Find Your Hair Type</h3>
   <p>Tokyo is the capital of Japan.</p>
 </div>
 
@@ -54,13 +52,12 @@ body {font-family: "Lato", sans-serif;}
   <p>Oslo is the capital of Norway.</p>
 </div>
 
-<button class="tablink" onclick="openCity('London', this)" id="defaultOpen">London</button>
-<button class="tablink" onclick="openCity('Paris', this)">Paris</button>
-<button class="tablink" onclick="openCity('Tokyo', this)">Tokyo</button>
-<button class="tablink" onclick="openCity('Oslo', this)">Oslo</button>
+<button class="tablink" onclick="openCity('NaturELLE', this)" id="defaultOpen">NaturELLE Salon Finder</button>
+<button class="tablink" onclick="openCity('About Us', this)">About Us</button>
+<button class="tablink" onclick="openCity('Hair Types', this)">Hair Type</button>
 
 <script>
-function openCity(cityName,elmnt,color) {
+function openCity(cityName,elmnt) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
@@ -71,7 +68,6 @@ function openCity(cityName,elmnt,color) {
         tablinks[i].style.backgroundColor = "";
     }
     document.getElementById(cityName).style.display = "block";
-    elmnt.style.backgroundColor = color;
 
 }
 // Get the element with id="defaultOpen" and click on it

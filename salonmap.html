@@ -126,7 +126,8 @@ Enter a location as a center. Enter a radius to find salons within that radius f
 		});
 		google.maps.event.addListener(marker, 'click', function() {
 		  infowindow.setContent('<div><strong>' + place.name + '</strong><br>' +
-		    place.formatted_address + '<br>' +
+		    place.formatted_address + '<br>' + place.formatted_phone_number +
+		    '<br>' +
 		    '<br>' + 'Rating: ' + place.rating +'<br>'+'Distance away: '+mDistance +'</div>');
 		  infowindow.open(map, this);
 		});
